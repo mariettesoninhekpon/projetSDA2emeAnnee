@@ -70,11 +70,48 @@ agroListe$Horodateur <- NULL
 
 
 ```{r}
-# Renommer les noms des colonnes
-
+# Supprimer la colonne nom
 library(dplyr)
-agroListe <- agroListe%>%
-  dplyr::rename(nom =`Nom de l'apprenant`)
+agroListe$Nom.de.l.apprenant <- NULL
+```
+
+
+
+```{r}
+
+colnames(agroListe)
+```
+
+
+```{r}
+library(dplyr)
+agroListe$Prénoms.de.l.apprenant <- NULL
+
+```
+
+```{r}
+agroListe$Contact.de.l.apprenant <- NULL
+
+```
+
+```{r}
+agroListe$Email.de.l.apprenant<- NULL
+
+```
+
+```{r}
+agroListe$Durée.de.la.formation... <- NULL
+
+```
+
+```{r}
+agroListe$Année.d.obtention.du.diplôme.en.entrepreneuriat.agricole... <- NULL
+
+```
+
+
+```{r}
+colnames(agroListe)
 ```
 
 
@@ -82,63 +119,43 @@ agroListe <- agroListe%>%
 library(dplyr)
 
 agroListe <- agroListe%>%
-  dplyr::rename(prenom =`Prénoms de l'apprenant`)
+  dplyr::rename(residence=`Lieu.de.résidence..commune.arrondissement.`)
 ```
 
-```{r}
-agroListe <- agroListe%>%
-  dplyr::rename(contact =`Contact de l'apprenant`)
-```
 
 ```{r}
+
 agroListe <- agroListe%>%
-  dplyr::rename(email = `Email de l'apprenant`)
+  dplyr::rename(diplome = `Niveau.d.étude..avant.la.formation.`)
 ```
 
-```{r}
-agroListe <- agroListe%>%
-  dplyr::rename(residence=`Lieu de résidence (commune/arrondissement)`)
-```
 
 ```{r}
+
 agroListe <- agroListe%>%
-  dplyr::rename(diplome = `Niveau d'étude (avant la formation)`)
+  dplyr::rename(domaine=`Domaines.de.formation...`)
 ```
 
-```{r}
-agroListe <- agroListe%>%
-  dplyr::rename(domaine=`Domaines de formation 
-`)
-```
 
 ```{r}
+
 agroListe <- agroListe%>%
-  dplyr::rename(periode=`Durée de la formation 
-`)
+  dplyr::rename(centre=`Nom.du.centre.de.formation...`)
 ```
 
-```{r}
-agroListe <- agroListe%>%
-  dplyr::rename(centre=`Nom du centre de formation 
-`)
-```
 
 ```{r}
+
 agroListe <- agroListe%>%
-  dplyr::rename(localisation=`Localisation du centre de formation (commune/arrondissement)
-`)
+  dplyr::rename(localisation=`Localisation.du.centre.de.formation..commune.arrondissement...`)
+
 ```
 
-```{r}
-agroListe <- agroListe%>%
-  dplyr::rename(an=`Année d'obtention du diplôme en entrepreneuriat agricole 
-`)
-```
 
 ```{r}
+
 agroListe <- agroListe%>%
-  dplyr::rename(occupation=`Occupation actuelle 
-`)
+  dplyr::rename(occupation=`Occupation.actuelle...`)
 ```
 
 ```{r}
@@ -148,213 +165,31 @@ colnames(agroListe)
 
 
 ```{r}
-# Conserver les diplômés de 2021 à 2023
-
-library(dplyr)
-agroListeAfter2020 <- filter(agroListe, an > 2020)
-```
-
-
-```{r}
-# Enlever la période de 3 ans 
-
-library(dplyr)
-agroListeAfter2020P <- filter(agroListeAfter2020, periode !='3 ans' )
-```
-
-
-```{r}
 # ôter LaRAEAq
 library(dplyr)
-agroListeAfter2020PC <- filter(agroListeAfter2020P, centre !='LaRAEAq' )
+agroListeAfter2020 <- filter(agroListe, centre !='LaRAEAq' )
 ```
 
 ```{r}
-colnames(agroListeAfter2020PC)
-dim(agroListeAfter2020PC)
+colnames(agroListeAfter2020)
+dim(agroListeAfter2020)
 ```
 
 ```{r}
-head(agroListeAfter2020PC)
+head(agroListeAfter2020)
 ```
 
-```{r}
-# Retenir ceux qui n'ont pas de travail
 
-library(dplyr)
-agroListeAfter2020PCO <- filter(agroListeAfter2020PC, occupation =='Au chômage' )
-```
-
-```{r}
-# Montrer les premières lignes
-head(agroListeAfter2020PCO)
-```
-
-```{r}
-colnames(agroListeAfter2020PCO)
-```
-
- 
-```{r}
-# Arranger selon l'email
-
-agroListeTotal <- arrange(agroListeAfter2020PCO, email)
-
-head(agroListeTotal)
-```
-
-```{r}
-colnames(agroListeTotal)
-```
-
-## Visualisation des données
-
-```{r}
-# Charger les packages nécessaires
-library(ggplot2)
-library(ggthemes)
-```
-
-### Répartition des apprenants par centre de formation 
-```{r}
-ggplot(data=agroListeTotal, aes(x=centre, y=residence, fill=periode))+
-  geom_bar(stat="identity", width=0.5, position = "dodge")+
-  xlab("centre de formation")+
-  ylab("commune de résidence")+
-  theme_minimal()+
-  labs(fill="periode")
- 
-```
-
-### Répartition des apprenants par durée de formation en fonction de la commune de résidence
-```{r}
-ggplot(data=agroListeTotal, aes(x=periode, y=residence, fill=an))+
-  geom_bar(stat="identity", width=0.5, position = "dodge")+
-  xlab("durée de formation")+
-  ylab("commune de résidence")+
-  theme_minimal()+
-  labs(fill="an")
-```
 
 
 ```{r}
-library(dplyr)
-glimpse(agroListeTotal)
-```
- 
-```{r}
-summary(agroListeTotal)
+
+
 ```
 
 ```{r}
-str(agroListeTotal)
+
 ```
-
-## Déterminer la distribution de la variable "residence"
-
-```{r}
-table(agroListeTotal$residence)
-```
-
-## Analyse de la tendance centrale de la variable 'residence'
-
-### La moyenne de la distribution des lieux de résidence 
-```{r}
-round(mean(table(agroListeTotal$residence)), 2)
-```
-
-### La médiane
-```{r}
-round(median(table(agroListeTotal$residence)), 2)
-```
-
-### L'écart-type
-```{r}
-round(sd(table(agroListeTotal$residence)), 2)     
-```
-
-### La variance
-```{r}
-round(var(table(agroListeTotal$residence)), 2)
-```
-
-
-## Déterminer la distribution de la variable "periode"
-```{r}
-table(agroListeTotal$periode)
-```
-
-## Analyse de la tendance centrale de la variable 'periode'
-
-### La moyenne
-```{r}
-round(mean(table(agroListeTotal$periode)), 2)   
-```
-
-### La médiane
-```{r}
-round(median(table(agroListeTotal$periode)), 2)
-```
-
-### L'écart-type
-```{r}
-round(sd(table(agroListeTotal$periode)), 2)   
-```
-
-### La variance
-```{r}
-round(var(table(agroListeTotal$periode)), 2)
-```
-
- 
-## Déterminer les proportions de la variable 'residence'
-```{r}
-table_resid <- table(agroListeTotal$residence)
-print(table_resid)
-```
-
-```{r}
-prop.table(table_resid)
-```
-
-## Déterminer les proportions de la variable 'periode'
-```{r}
-table_peri <- table(agroListeTotal$periode)
-print(table_peri)
-```
-
-```{r}
-prop.table(table_peri)
-```
-
-
-## Distribution actuelle
-```{r}
-table(agroListeTotal$residence, agroListeTotal$periode) 
-  
-```
- 
- 
-## Répartition des communes représentées
-```{r}
-barplot(table(agroListeTotal$residence), xlab="commune")
-```
-
-## Répartition de la durée de formation en fonction de la commune de résidence 
-```{r}
-plot(agroListeTotal$an ~ agroListeTotal$residence, xlab="commune", ylab="année formation")
-```
-
-
-## Chi-Square Statistical Test 
-
-```{r}
-chisq.test(agroListeTotal$residence, agroListeTotal$periode)
-```
-
-### Interpréter le Chi-Square Test
-
-La relation est statistiquement significative entre la durée de formation et le lieu de résidence des apprenants.
 
 
 # Conclusion
